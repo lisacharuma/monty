@@ -1,12 +1,12 @@
 #include "monty.h"
 
 /**
- * validate_args - new function
+ * usage_error - new function
  * Description: validates args passed to the program
  * Return: exits with failure every time
  */
 
-int validate_args(void)
+int usage_error(void)
 {
 	fprintf(stderr, "USAGE: monty file\n");
 	exit(EXIT_FAILURE);
@@ -22,21 +22,6 @@ int validate_args(void)
 int file_open_error(char *filename)
 {
 	fprintf(stderr, "Error: Can't open file %s\n", filename);
-	exit(EXIT_FAILURE);
-}
-
-/**
- * instruction_error - new function
- * Description: exits te program when unkown instruction is passed
- * @line_number: line where error occured
- * @opcode: instruction
- * Return: exit failure
- */
-
-int instruction_error(unsigned int line_number, char *opcode)
-{
-	fprintf(stderr, "L%u: unknown instruction %s\n",
-			line_number, opcode);
 	exit(EXIT_FAILURE);
 }
 
@@ -62,5 +47,22 @@ int malloc_error(void)
 int no_int_error(unsigned int line_number)
 {
 	fprintf(stderr, "L%u: usage: push integer\n", line_number);
+	fclose(val.file);
+	free(val.line_c);
+	free_stack(stack);
 	exit(EXIT_FAILURE);
 }
+
+/**
+ * pop_error - handles pop errors
+ * @line_number: line with error
+ * Return: exit failure
+ */
+
+int pop_error(unsigned int line_number)
+{
+	fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+        fclose(val.file);
+        free(val.line_c);
+        free_stack(stack);
+        exit(EXIT_FAILURE);
